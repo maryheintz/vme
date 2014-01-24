@@ -1,0 +1,10 @@
+
+Welcome to the GE Fanuc example program demonstrating how to access
+the EEPROM device on the SMBus.  This example is intended only for
+the VMIVME-7809 single board computer.
+
+This driver supports Linux kernels 2.6.x
+
+The installation instructions and user's guide are available in HTML format.
+To get started, open the file index.html in your web browser.
+

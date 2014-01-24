@@ -1,0 +1,41 @@
+VMINVR Changelog
+
+1.3:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.2:
++ Add fixupflags for RedHat9. -DLH
+
+1.1:
+
+1.0.2:
++ Add support for PC4-7301 and IOMAX-8451. -DLH
+
+1.0.1:
++ Add Makefile to tests directory. -DLH
++ Fix compiler warnings in test code. -DLH
++ Split up complex functions. - DLH
++ Switch to Linus's code style. -DLH
++ Documentation edits. -DLH
++ Use Xinclude to get latest example code. -DLH
++ Add support for CPCI-7350. -DLH
+
+1.0:
++ Skip mmap() test in interface_test.c mmap() for non-page-aligned NVRAM.
+  Treat mmap() as unsupported on these boards because the behavior is
+  inconsistant between different versions of glibc. -DLH
++ Fix the path the kernel source to use Linus's decreed standard. -DLH
+
+0.3:
++ Fix address and size on VMICPCI-7699. -DLH
+
+0.2:
++ Use miscdevice interface. -DLH
++ Add phys_addr and size module parameters. -DLH
++ Documentation edits. -DLH
++ Fix buggy address test in mmap(). -DLH
++ Fix incorrect device id for FPGA device. -DLH
+
+0.1:
++ Initial testing release of the NVRAM. -DLH
+

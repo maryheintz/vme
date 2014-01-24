@@ -1,0 +1,392 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15"><title>VMISFT-7433: GE Fanuc Board Support Package for Linux
+</title></head><body leftmargin="10" rightmargin="0" topmargin="0" marginheight="0" bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><a href="http://www.gefanuc.com/embedded"><img border="0" src="gefes-logo.jpg"></a></td></tr><tr><td valign="top" align="right"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td width="100%" valign="top" align="left"><br><h1>VMISFT-7433: GE Fanuc Board Support Package for Linux
+</h1><h2>Contents:</h2><a href="#doc_chap1">Abstract</a><br><a href="#doc_chap2">Supported Boards</a><br><h2><a name="doc_chap1"></a>Abstract</h2>
+<p>The VMISFT-7433 Board Support Package (BSP) is a collection of drivers, libraries and utilities to support the use of Linux on GE Fanuc single board computers (SBCs).
+</p>
+<p>A specific subset of projects from this package applies to each SBC. Reference the documentation supplied here to determine which projects are appliciable to your SBC.
+</p>
+<p>Each project is a self-contained entity located in the directory matching that project's name. The Makefile and source code for each project is contained it that project's directory. Each project can be installed and uninstalled separately and not all projects need be installed for any given SBC.
+</p>
+<h2><a name="doc_chap2"></a>Supported Boards</h2><p>VMISFT-7433 supports the following boards:
+</p><ul><li><a href="#doc_board1">VMICPCI-7305</a></li><li><a href="#doc_board2">VMICPCI-7326</a></li><li><a href="#doc_board3">VMICPCI-7593</a></li><li><a href="#doc_board4">VMICPCI-7594</a></li><li><a href="#doc_board5">VMICPCI-7696</a></li><li><a href="#doc_board6">VMICPCI-7697</a></li><li><a href="#doc_board7">VMICPCI-7699</a></li><li><a href="#doc_board8">VMICPCI-7710</a></li><li><a href="#doc_board9">VMICPCI-7715</a></li><li><a href="#doc_board10">VMICPCI-7716</a></li><li><a href="#doc_board11">VMICPCI-7753</a></li><li><a href="#doc_board12">VMICPCI-7755</a></li><li><a href="#doc_board13">VMICPCI-7756</a></li><li><a href="#doc_board14">VMICPCI-7757</a></li><li><a href="#doc_board15">VMICPCI-7806</a></li><li><a href="#doc_board16">VMICPCI-7808</a></li><li><a href="#doc_board17">VMIPC4-7301</a></li><li><a href="#doc_board18">VMIOMAX-8451</a></li><li><a href="#doc_board19">VMIVME-7591</a></li><li><a href="#doc_board20">VMIVME-7592</a></li><li><a href="#doc_board21">VMIVME-7695</a></li><li><a href="#doc_board22">VMIVME-7696</a></li><li><a href="#doc_board23">VMIVME-7697</a></li><li><a href="#doc_board24">VMIVME-7697A</a></li><li><a href="#doc_board25">VMIVME-7698</a></li><li><a href="#doc_board26">VMIVME-7700</a></li><li><a href="#doc_board27">VMIVME-7740</a></li><li><a href="#doc_board28">VMIVME-7750</a></li><li><a href="#doc_board29">VMIVME-7751</a></li><li><a href="#doc_board30">VMIVME-7765</a></li><li><a href="#doc_board31">VMIVME-7766</a></li><li><a href="#doc_board32">VMIVME-7805</a></li><li><a href="#doc_board33">VMIVME-7807</a></li><li><a href="#doc_board34">VMIVME-7809</a></li><li><a href="#doc_board35">VMIVME-7810</a></li></ul><p>If your board is not listed please contact GE Fanuc Customer Care for support information.
+</p><h2><a name="doc_board1"></a>VMICPCI-7305</h2><p>The following projects are applicable to VMICPCI-7305:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr-7305/doc/index.html">vmitmr-7305</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdt-7305/doc/index.html">vmiwdt-7305</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board2"></a>VMICPCI-7326</h2><p>The following projects are applicable to VMICPCI-7326:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr-7326/doc/index.html">vmitmr-7326</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdt-7326/doc/index.html">vmiwdt-7326</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Because the VMICPCI-7326 SBC has no board id, some drivers cannot automatically detect and configure themselves. For these drivers, configuration must be done using module parameters.
+</p></td></tr></table>
+<p>For vminvr, load the module with the command:
+modprobe vminvr phys_addr=0xffc00020 size=32736
+</p>
+<h2><a name="doc_board3"></a>VMICPCI-7593</h2><p>The following projects are applicable to VMICPCI-7593:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Because the VMICPCI-7593 SBC has no board id, some drivers cannot automatically detect and configure themselves. For these drivers, configuration must be done using module parameters.
+</p></td></tr></table>
+<p>For vminvr, load the module with the command:
+modprobe vminvr phys_addr=0xd800e size=32754
+</p>
+<p>For vmiwdtd, load the module with the command:
+modprobe vmiwdtd phys_addr=0xd8000
+</p>
+<h2><a name="doc_board4"></a>VMICPCI-7594</h2><p>The following projects are applicable to VMICPCI-7594:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Because the VMICPCI-7594 SBC has no board id, some drivers cannot automatically detect and configure themselves. For these drivers, configuration must be done using module parameters.
+</p></td></tr></table>
+<p>For vminvr, load the module with the command:
+modprobe vminvr phys_addr=0xd800e size=32754
+</p>
+<p>For vmiwdtd, load the module with the command:
+modprobe vmiwdtd phys_addr=0xd8000
+</p>
+<h2><a name="doc_board5"></a>VMICPCI-7696</h2><p>The following projects are applicable to VMICPCI-7696:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Because the VMICPCI-7696 SBC has no board id, some drivers cannot automatically detect and configure themselves. For these drivers, configuration must be done using module parameters.
+</p></td></tr></table>
+<p>For vminvr, load the module with the command:
+modprobe vminvr phys_addr=0xd800e size=32754
+</p>
+<p>For vmiwdtd, load the module with the command:
+modprobe vmiwdtd phys_addr=0xd8000
+</p>
+<h2><a name="doc_board6"></a>VMICPCI-7697</h2><p>The following projects are applicable to VMICPCI-7697:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Because the VMICPCI-7697 SBC has no board id, some drivers cannot automatically detect and configure themselves. For these drivers, configuration must be done using module parameters.
+</p></td></tr></table>
+<p>For vminvr, load the module with the command:
+modprobe vminvr phys_addr=0xd800e size=32754
+</p>
+<p>For vmiwdtd, load the module with the command:
+modprobe vmiwdtd phys_addr=0xd8000
+</p>
+<h2><a name="doc_board7"></a>VMICPCI-7699</h2><p>The following projects are applicable to VMICPCI-7699:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board8"></a>VMICPCI-7710</h2><p>The following projects are applicable to VMICPCI-7710:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board9"></a>VMICPCI-7715</h2><p>The following projects are applicable to VMICPCI-7715:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board10"></a>VMICPCI-7716</h2><p>The following projects are applicable to VMICPCI-7716:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board11"></a>VMICPCI-7753</h2><p>The following projects are applicable to VMICPCI-7753:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr></table>
+<h2><a name="doc_board12"></a>VMICPCI-7755</h2><p>The following projects are applicable to VMICPCI-7755:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board13"></a>VMICPCI-7756</h2><p>The following projects are applicable to VMICPCI-7756:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board14"></a>VMICPCI-7757</h2><p>The following projects are applicable to VMICPCI-7757:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board15"></a>VMICPCI-7806</h2><p>The following projects are applicable to VMICPCI-7806:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vmiwdt-7806/doc/index.html">vmiwdt-7806</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board16"></a>VMICPCI-7808</h2><p>The following projects are applicable to VMICPCI-7808:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vmiwdt-7806/doc/index.html">vmiwdt-7806</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board17"></a>VMIPC4-7301</h2><p>The following projects are applicable to VMIPC4-7301:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr-7305/doc/index.html">vmitmr-7305</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdt-7305/doc/index.html">vmiwdt-7305</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board18"></a>VMIOMAX-8451</h2><p>The following projects are applicable to VMIOMAX-8451:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr-7305/doc/index.html">vmitmr-7305</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdt-7305/doc/index.html">vmiwdt-7305</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board19"></a>VMIVME-7591</h2><p>The following projects are applicable to VMIVME-7591:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board20"></a>VMIVME-7592</h2><p>The following projects are applicable to VMIVME-7592:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board21"></a>VMIVME-7695</h2><p>The following projects are applicable to VMIVME-7695:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board22"></a>VMIVME-7696</h2><p>The following projects are applicable to VMIVME-7696:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrc/doc/index.html">vmitmrc</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board23"></a>VMIVME-7697</h2><p>The following projects are applicable to VMIVME-7697:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrc/doc/index.html">vmitmrc</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board24"></a>VMIVME-7697A</h2><p>The following projects are applicable to VMIVME-7697A:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrc/doc/index.html">vmitmrc</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board25"></a>VMIVME-7698</h2><p>The following projects are applicable to VMIVME-7698:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board26"></a>VMIVME-7700</h2><p>The following projects are applicable to VMIVME-7700:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board27"></a>VMIVME-7740</h2><p>The following projects are applicable to VMIVME-7740:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmr_82c54/doc/index.html">vmitmr_82c54</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtd/doc/index.html">vmiwdtd</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board28"></a>VMIVME-7750</h2><p>The following projects are applicable to VMIVME-7750:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board29"></a>VMIVME-7751</h2><p>The following projects are applicable to VMIVME-7751:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board30"></a>VMIVME-7765</h2><p>The following projects are applicable to VMIVME-7765:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board31"></a>VMIVME-7766</h2><p>The following projects are applicable to VMIVME-7766:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<h2><a name="doc_board32"></a>VMIVME-7805</h2><p>The following projects are applicable to VMIVME-7805:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel version 2.4.26 or later must be installed for the VMIVME-7805 timer drivers to function accurately.
+</p></td></tr></table>
+<h2><a name="doc_board33"></a>VMIVME-7807</h2><p>The following projects are applicable to VMIVME-7807:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel version 2.4.26 or later must be installed for the VMIVME-7807 timer drivers to function accurately.
+</p></td></tr></table>
+<h2><a name="doc_board34"></a>VMIVME-7809</h2><p>The following projects are applicable to VMIVME-7809:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vmieep-7809/doc/index.html">vmieep-7809</a></td><td>
+Example program for accessing a serial EEPROM on the SMBus.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel version 2.4.26 or later must be installed for the VMIVME-7809 timer drivers to function accurately.
+</p></td></tr></table>
+<h2><a name="doc_board35"></a>VMIVME-7810</h2><p>The following projects are applicable to VMIVME-7810:
+</p>
+<table width="100%" cellspacing="0" cellpadding="2" border="1"><tr><td><a href="../vme_universe/doc/index.html">vme_universe</a></td><td>
+Provides a device driver, an application program interface (API) library, and a set of utilities for accessing the VMEbus via the Tundra Universe II VMEbus-PCI bridge device.
+</td></tr><tr><td><a href="../vminvr/doc/index.html">vminvr</a></td><td>
+Device driver for non-volatile RAM (NVRAM) access.
+</td></tr><tr><td><a href="../vmitmrf/doc/index.html">vmitmrf</a></td><td>
+Device driver for the onboard timer devices.
+</td></tr><tr><td><a href="../vmiwdtf/doc/index.html">vmiwdtf</a></td><td>
+Device driver for the watchdog timer device.
+</td></tr></table>
+<br><br></td></tr></table></td></tr><tr><td width="100%" bgcolor="#330099"><font color="#ffffff">
+Copyright 2006 GE Fanuc Embedded Systems, Inc. Questions, Comments, Corrections?  Email <a href="mailto:support.embeddedsystems@gefanuc.com"><font color="#00ff00">support.embeddedsystems@gefanuc.com</font></a>.
+</font></td></tr></table></body></html>

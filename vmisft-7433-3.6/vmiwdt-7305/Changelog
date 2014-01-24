@@ -1,0 +1,17 @@
+VMIWDT-7305 Changelog
+
+1.2:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.1:
++ Fix enable and disable functions to not trash CSR value. -DLH
+
+1.0:
++ Add linux/init.h to module includes. -DLH
+
+0.2:
++ Add support for VMIPC4-7301 and VMIOMAX-8451. -DLH
+
+0.1:
++ Initial release for internal testing. - DLH
+

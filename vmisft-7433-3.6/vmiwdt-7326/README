@@ -1,0 +1,8 @@
+
+Welcome to the GE Fanuc Watchdog Timer Driver for Linux for the CPCI-7326 board with an FPGA device.
+
+This driver supports Linux kernels 2.4.x and 2.6.x
+
+The installation instructions and user's guide are available in HTML format.
+To get started, open the file index.html in your web browser.
+

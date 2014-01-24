@@ -1,0 +1,76 @@
+#
+#==============================================================================
+#                           COPYRIGHT NOTICE
+#
+#   Copyright (C) 2002-2005 GE Fanuc
+#   International Copyright Secured.  All Rights Reserved.
+#
+#------------------------------------------------------------------------------
+#   Description: Makefile for the VMEbus extenstion registers (2.4 Kernel)
+#------------------------------------------------------------------------------
+#
+#==============================================================================
+#
+
+
+# Project variables
+# 'uname -r' sets kernel revision to the currently running kernel revision
+# KERNELSRC must point to the Linux kernel source code.
+KERNELREV:=$(shell uname -r)
+KERNELSRC:=/lib/modules/$(KERNELREV)/build
+PROJNAME:=vmivme
+DEVFILE:=/dev/vmivme
+DEVMAJOR:=10
+DEVMINOR:=255   # 255 means dynamically allocate a minor number
+
+# The standard tools and options
+CC:=gcc
+CFLAGS=-Wall -D__KERNEL__ -DMODULE -DMODVERSIONS -DMOD_MINOR=$(DEVMINOR) \
+       -include$(KERNELSRC)/include/linux/modversions.h -DEXPORT_SYMTAB \
+       -I$(KERNELSRC)/include -O2 -DMOD_NAME=\"$(PROJNAME)\" \
+       -DMOD_VERSION=\"$(MOD_VERSION)\" 
+
+LD:=ld
+LDFLAGS=
+
+
+# Install paths
+prefix:=
+exec_prefix:=$(prefix)/usr
+bindir:=$(exec_prefix)/bin
+includedir:=$(exec_prefix)/include
+moduledir:=$(prefix)/lib/modules/$(KERNELREV)/kernel/drivers/char
+
+
+.PHONY: all install uninstall clean
+
+
+all:$(PROJNAME).o
+
+
+install: all
+	install -m0644 -oroot -groot vmivme.h \
+                $(includedir)/linux/vmivme.h
+	install -m0644 -oroot -groot -D $(PROJNAME).o \
+                $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+uninstall:
+	rm -f $(includedir)/linux/vmivme.h
+	rm -f $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+clean:
+	find . -name "*\.o" | xargs rm -f
+
+
+$(PROJNAME).o:$(KERNELSRC)/include/linux/modversions.h vmivme.h
+
+
+$(KERNELSRC)/include/linux/modversions.h:
+	$(error It appears that your kernel source is not installed. \
+                To build this module, the kernel source must be accessible \
+                via the path $(KERNELSRC).)
+

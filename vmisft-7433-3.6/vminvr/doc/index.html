@@ -1,0 +1,237 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15"><title>VMINVR: GE Fanuc Non-Volatile RAM Driver
+</title></head><body leftmargin="10" rightmargin="0" topmargin="0" marginheight="0" bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><a href="http://www.gefanuc.com/embedded"><img border="0" src="gefes-logo.jpg"></a></td></tr><tr><td valign="top" align="right"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td width="100%" valign="top" align="left"><br><h1>VMINVR: GE Fanuc Non-Volatile RAM Driver
+</h1><h2>Contents:</h2><a href="#doc_chap1">Abstract</a><br><a href="#doc_chap2">Installation</a><br><a href="#doc_chap3">Loading and Unloading the Module</a><br><a href="#doc_chap4">Using Module Parameters</a><br><a href="#doc_chap5">Writing Applications Using the VMINVR Driver</a><br><a href="#doc_chap6">Testing Non-Volatile RAM (NVRAM)</a><br><h2><a name="doc_chap1"></a>Abstract</h2>
+<p>The <b>vminvr</b> driver is a loadable Linux device driver module for non-volatile RAM (NVRAM) on GE Fanuc single board computers (SBCs). SBCs currently supported include:
+</p>
+<ul>
+<li>VMICPCI-7305</li>
+<li>VMICPCI-7593</li>
+<li>VMICPCI-7594</li>
+<li>VMICPCI-7696</li>
+<li>VMICPCI-7697</li>
+<li>VMICPCI-7699</li>
+<li>VMICPCI-7715</li>
+<li>VMICPCI-7716</li>
+<li>VMICPCI-7753</li>
+<li>VMICPCI-7755</li>
+<li>VMICPCI-7756</li>
+<li>VMICPCI-7757</li>
+<li>VMIPC4-7301</li>
+<li>VMIOMAX-8451</li>
+<li>VMIVME-7591</li>
+<li>VMIVME-7592</li>
+<li>VMIVME-7695</li>
+<li>VMIVME-7696</li>
+<li>VMIVME-7697</li>
+<li>VMIVME-7697a</li>
+<li>VMIVME-7698</li>
+<li>VMIVME-7700</li>
+<li>VMIVME-7740</li>
+<li>VMIVME-7750</li>
+<li>VMIVME-7751</li>
+<li>VMIVME-7765</li>
+<li>VMIVME-7766</li>
+<li>VMIVME-7805</li>
+<li>VMIVME-7807</li>
+<li>VMIVME-7810</li>
+</ul>
+<p>This list may not be complete. If your board is not listed please contact GE Fanuc Customer Care to confirm support.
+</p>
+<p>This document describes installation and usage of the <b>vminvr</b> non-volatile RAM (NVRAM) driver for GE Fanuc SBCs.
+</p>
+<p>This document assumes that you have some knowledge of the Linux operating system and C programming for POSIX/UNIX machines.
+</p>
+<h2><a name="doc_chap2"></a>Installation</h2><h3><font color="#330099"><a name="_sect1">Building</a></font></h3>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel source code must be installed to build the driver module.
+</p></td></tr></table>
+<p>To use the <b>vminvr</b> driver, it must first be compiled (built) into executable code and installed. The next code listing illustrates how to compile and install the <b>vminvr</b> driver.
+</p>
+<a name="doc_pre1"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 1: Compiling and Installing the VMINVR Driver</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// From the vminvr base directory execute:</font>
+<font color="#330099"><b>sh$ </b>make</font>
+<font color="#330099"><b>sh# </b>make install</font>
+</pre></td></tr></table>
+<h3><font color="#330099"><a name="_sect2">Verifying the Installation</a></font></h3>
+<p>If the project is built and installed correctly, you should have the following file installed on your system:
+</p>
+<a name="doc_pre2"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 2: Verify the Installation</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// This is the driver module.  Make sure you use `uname -r`, not 'uname -r'.</font>
+<font color="#330099"><b>sh$ </b>ls /lib/modules/`uname -r`/extra/</font>
+<font color="#330099">vminvr.ko</font>
+<font color="#ff0000">// This is the device file we will use to access NVRAM.</font>
+<font color="#330099"><b>sh$ </b>ls /dev/nvram</font>
+<font color="#330099">/dev/nvram</font>
+<font color="#ff0000">// /dev/watchdog should be a character special file with</font>
+<font color="#ff0000">// major device number 10 and minor device number 144</font>
+</pre></td></tr></table>
+<h2><a name="doc_chap3"></a>Loading and Unloading the Module</h2>
+<p>Use the <font color="#330099"><tt>modprobe</tt></font> command to load the driver module by entering <font color="#330099"><tt>modprobe vminvr</tt></font>.
+</p>
+<p>Use the <font color="#330099"><tt>lsmod</tt></font> command command to verify that the module loaded successfully. When you enter <font color="#330099"><tt>lsmod</tt></font>, the module name <font>vminvr</font> should appear in the output.
+</p>
+<p>To unload the module, enter <font color="#330099"><tt>modprobe -r vminvr</tt></font>.
+</p>
+<h2><a name="doc_chap4"></a>Using Module Parameters</h2>
+<p>To use module parameters, add them to the <font>/etc/modules.conf</font> file or specify them on the <font color="#330099"><tt>insmod</tt></font> or <font color="#330099"><tt>modprobe</tt></font> command line.
+</p>
+<p>The following parameters are defined for the <font color="#330099"><tt>vminvr</tt></font> driver:
+</p>
+<ul>
+<li>phys_addr - The physical address of NVRAM</li>
+<li>size - Size of NVRAM in bytes</li>
+</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Module parameters can be passed in using <font color="#330099"><tt>insmod</tt></font>, but <font color="#330099"><tt>insmod</tt></font> does not read parameters from <font>/etc/modules.conf</font>.
+</p></td></tr></table>
+<h2><a name="doc_chap5"></a>Writing Applications Using the VMINVR Driver</h2>
+<p>The <b>vminvr</b> driver supports the following standard Linux system calls:
+</p>
+<ul>
+<li>open</li>
+<li>close</li>
+<li>read</li>
+<li>write</li>
+<li>lseek</li>
+<li>mmap</li>
+<li>pread</li>
+<li>pwrite</li>
+</ul>
+
+<a name="doc_pre3"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 3: Writing an application that uses NVRAM</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// Here is some test code that demonstrates use of the NVRAM driver.</font>
+<font color="#ff0000">// This source code is included in the test directory.</font>
+<font color="#ff0000">// The file is called interface_test.c</font>
+
+/*
+ * Test the interface to the NVRAM driver
+ */
+
+
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/mman.h&gt;
+
+
+/*===========================================================================
+ * Main routine
+ */
+int main()
+{
+	off_t size;
+	char *ptr = NULL;
+	char data, pattern;
+	int fd;
+
+	fd = open("/dev/nvram", O_RDWR);
+	if (-1 == fd) {
+		perror("open");
+		return -1;
+	}
+
+	/* Use lseek to determine the size of the NVRAM
+	 */
+	size = lseek(fd, 0, SEEK_END);
+	if (0 &gt;= size) {
+		perror("lseek");
+		goto err_out;
+	}
+
+	fprintf(stderr, "NVRAM size is 0x%x bytes\n", (int) size);
+
+	fprintf(stdout, "First pass read/write: ");
+
+	pattern = 0x55;
+
+	lseek(fd, -1, SEEK_CUR);
+	write(fd, &amp;pattern, sizeof (pattern));
+	lseek(fd, size - 1, SEEK_SET);
+	read(fd, &amp;data, sizeof (data));
+
+	if (data != pattern) {
+		fprintf(stdout, "FAILED\n");
+		goto err_out;
+	}
+
+	fprintf(stdout, "PASSED\n");
+
+	fprintf(stdout, "Second pass read/write: ");
+
+	pattern = ~pattern;
+
+	lseek(fd, size - 1, SEEK_SET);
+	write(fd, &amp;pattern, sizeof (pattern));
+	lseek(fd, -1, SEEK_CUR);
+	read(fd, &amp;data, sizeof (data));
+
+	if (data != pattern) {
+		fprintf(stdout, "FAILED\n");
+		goto err_out;
+	}
+
+	fprintf(stdout, "PASSED\n");
+
+	fprintf(stdout, "Memory-mapped access: ");
+
+	/* NVRAM on some devices does not start on a page boundry; mmap() on
+           these devices is not supported, use it at your own risk.
+	 */
+	if (size % getpagesize()) {
+		fprintf(stdout, "NOT SUPPORTED\n");
+	} else {
+		ptr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+		if (MAP_FAILED == ptr) {
+			perror("mmap");
+			goto err_out;
+		}
+
+		if (ptr[size - 1] != pattern) {
+			fprintf(stdout, "FAILED\n");
+			goto err_out;
+		}
+
+		fprintf(stdout, "PASSED\n");
+
+		if (munmap(ptr, size)) {
+			perror("munmap");
+			goto err_out;
+		}
+	}
+
+	if (close(fd)) {
+		perror("close");
+		return -1;
+	}
+
+	return 0;
+
+      err_out:
+	close(fd);
+	return -1;
+}
+
+
+<font color="#ff0000">// If you have not already done so, load the driver.</font>
+<font color="#330099"><b>sh# </b>modprobe vminvr</font>
+<font color="#ff0000">// Now let's run our code. From the test directory run,</font>
+<font color="#330099"><b>sh$ </b>./interface_test</font>
+<font color="#330099">
+NVRAM size is 0x8000 bytes
+First pass read/write: PASSED
+Second pass read/write: PASSED
+Memory-mapped access: PASSED
+</font>
+</pre></td></tr></table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#bbffbb"><p><b>Note: </b>On some GE Fanuc SBCs, NVRAM does not start on a PAGE boundary, but <font color="#330099">mmap()</font> requires the base address and size of the region to be PAGE aligned. Therefore, the <font color="#330099">mmap()</font> function is not supported on SBCs with non-page-aligned NVRAM.
+</p></td></tr></table>
+<h2><a name="doc_chap6"></a>Testing Non-Volatile RAM (NVRAM)</h2>
+<p>In the test directory, there is a piece of test code, nvram_test.c.  This application performs a full test of the NVRAM device.
+</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>The test done by nvram_test.c will erase all data stored in NVRAM!
+</p></td></tr></table>
+<br><br></td></tr></table></td></tr><tr><td width="100%" bgcolor="#330099"><font color="#ffffff">
+Copyright 2006 GE Fanuc Embedded Systems, Inc. Questions, Comments, Corrections?  Email <a href="mailto:support.embeddedsystems@gefanuc.com"><font color="#00ff00">support.embeddedsystems@gefanuc.com</font></a>.
+</font></td></tr></table></body></html>

@@ -1,0 +1,218 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15"><title>VMIWDT-7760: GE Fanuc Watchdog Timer Driver
+</title></head><body leftmargin="10" rightmargin="0" topmargin="0" marginheight="0" bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><a href="http://www.gefanuc.com/embedded"><img border="0" src="gefes-logo.jpg"></a></td></tr><tr><td valign="top" align="right"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td width="100%" valign="top" align="left"><br><h1>VMIWDT-7760: GE Fanuc Watchdog Timer Driver
+</h1><h2>Contents:</h2><a href="#doc_chap1">Abstract</a><br><a href="#doc_chap2">Installation</a><br><a href="#doc_chap3">Loading and Unloading the Module</a><br><a href="#doc_chap4">Writing Applications Using the VMIWDT-7760 Driver</a><br><a href="#doc_chap5">Using the Watchdog Timer</a><br><h2><a name="doc_chap1"></a>Abstract</h2>
+<p>The <b>vmiwdt-7760</b> driver is a loadable Linux device driver module for GE Fanuc single board computers (SBCs) with a watchdog timer device. SBCs currently supported by this driver include:
+</p>
+<ul>
+<li>VMICPCI-7760</li>
+</ul>
+<p>This list may not be complete. If your board is not listed please contact GE Fanuc Customer Care to confirm support.
+</p>
+<p>This document describes installation and usage of the <b>vmiwdt-7760</b> watchdog timer driver for GE Fanuc SBCs.
+</p>
+<p>This document assumes that you have some knowledge of the Linux operating system and C programming.
+</p>
+<h2><a name="doc_chap2"></a>Installation</h2><h3><font color="#330099"><a name="_sect1">Building</a></font></h3>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel source code must be installed to build the driver module.
+</p></td></tr></table>
+<p>To use the <b>vmiwdt-7760</b> driver, it must first be compiled (built) into executable code and installed. The next code listing illustrates how to compile and install the <b>vmiwdt-7760</b> driver.
+</p>
+<a name="doc_pre1"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 1: Compiling and Installing the VMIWDT-7760 Driver</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// From the vmiwdt-7760 base directory execute:</font>
+<font color="#330099"><b>sh$ </b>make</font>
+<font color="#330099"><b>sh# </b>make install</font>
+</pre></td></tr></table>
+<h3><font color="#330099"><a name="_sect2">Verifying the Installation</a></font></h3>
+<p>If the project is built and installed correctly, you should have the following file installed on your system:
+</p>
+<a name="doc_pre2"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 2: Verify the Installation</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// This is the driver module.  Make sure you use `uname -r`, not 'uname -r'.</font>
+<font color="#330099"><b>sh$ </b>ls /lib/modules/`uname -r`/extra/</font>
+<font color="#330099">vmiwdt-7760.ko</font>
+<font color="#ff0000">// This is the device file we will use to access the watchdog device.</font>
+<font color="#330099"><b>sh$ </b>ls -l /dev/watchdog</font>
+<font color="#330099">/dev/watchdog</font>
+<font color="#ff0000">// /dev/watchdog should be a character special file with</font>
+<font color="#ff0000">// major device number 10 and minor device number 130</font>
+</pre></td></tr></table>
+<h2><a name="doc_chap3"></a>Loading and Unloading the Module</h2>
+<p>Use the <font color="#330099"><tt>modprobe</tt></font> command to load the driver module by entering <font color="#330099"><tt>modprobe vmiwdt-7760</tt></font>.
+</p>
+<p>Use the <font color="#330099"><tt>lsmod</tt></font> command command to verify that the module loaded successfully. When you enter <font color="#330099"><tt>lsmod</tt></font>, the module name <font>vmiwdt-7760</font> should appear in the output.
+</p>
+<p>To unload the module, enter <font color="#330099"><tt>modprobe -r vmiwdt-7760</tt></font>.
+</p>
+<h2><a name="doc_chap4"></a>Writing Applications Using the VMIWDT-7760 Driver</h2>
+<p>The <b>vmiwdt-7760</b> driver supports the following standard Linux system calls:
+</p>
+<ul>
+<li>open</li>
+<li>close</li>
+<li>write</li>
+<li>ioctl</li>
+</ul>
+
+<a name="doc_pre3"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 3: Writing an application that uses the watchdog timer</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// Here is some test code that demonstrates use of the watchdog timer.</font>
+<font color="#ff0000">// This source code is included in the test directory.</font>
+<font color="#ff0000">// The file is called wd_test.c</font>
+
+
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;linux/types.h&gt;
+#include &lt;linux/watchdog.h&gt;
+#include &lt;sys/ioctl.h&gt;
+
+
+/* Older 2.4.x kernel versions did not have *TIMEOUT operations in "watchdog.h"
+ */
+#ifndef WDIOC_SETTIMEOUT
+#define WDIOC_SETTIMEOUT        _IOWR(WATCHDOG_IOCTL_BASE, 6, int)
+#define WDIOC_GETTIMEOUT        _IOR(WATCHDOG_IOCTL_BASE, 7, int)
+#define WDIOF_SETTIMEOUT        0x0080
+#endif				/* WDIOC_SETTIMEOUT */
+
+
+/*===========================================================================
+ * Main routine
+ */
+int main(int argc, char **argv)
+{
+	struct watchdog_info wdt_info;
+	int c, fd, to = 0;
+
+	while (-1 != (c = getopt(argc, argv, "s:"))) {
+		switch (c) {
+		case 's':	/* timeout in seconds */
+			to = strtol(optarg, NULL, 0);
+			break;
+		default:
+			fprintf(stderr, "USAGE: wd_test [-s seconds]");
+		}
+	}
+
+	fd = open("/dev/watchdog", O_RDWR);
+	if (-1 == fd) {
+		perror("open");
+		return -1;
+	}
+
+	if (ioctl(fd, WDIOC_GETSUPPORT, &amp;wdt_info)) {
+		perror("ioctl");
+		goto error_exit;
+	}
+
+	printf("Watchdog module is %s\n", (char *) wdt_info.identity);
+	printf("Firmware revision %d\n", wdt_info.firmware_version);
+	printf("Supported options are:\n");
+	if (0 == wdt_info.options)
+		printf("  none\n");
+	if (WDIOF_OVERHEAT &amp; wdt_info.options)
+		printf("  OVERHEAT\n");
+	if (WDIOF_FANFAULT &amp; wdt_info.options)
+		printf("  FANFAULT\n");
+	if (WDIOF_EXTERN1 &amp; wdt_info.options)
+		printf("  EXTERN1\n");
+	if (WDIOF_EXTERN2 &amp; wdt_info.options)
+		printf("  EXTERN2\n");
+	if (WDIOF_POWERUNDER &amp; wdt_info.options)
+		printf("  POWERUNDER \n");
+	if (WDIOF_CARDRESET &amp; wdt_info.options)
+		printf("  CARDRESET\n");
+	if (WDIOF_POWEROVER &amp; wdt_info.options)
+		printf("  POWEROVER\n");
+	if (WDIOF_SETTIMEOUT &amp; wdt_info.options)
+		printf("  SETTIMEOUT\n");
+	if (WDIOF_KEEPALIVEPING &amp; wdt_info.options)
+		printf("  KEEPALIVEPING\n");
+
+	if (to) {
+		if (ioctl(fd, WDIOC_SETTIMEOUT, &amp;to)) {
+			perror("ioctl");
+			goto error_exit;
+		}
+	} else {
+		if (ioctl(fd, WDIOC_GETTIMEOUT, &amp;to)) {
+			perror("ioctl");
+			goto error_exit;
+		}
+	}
+
+	/* Just testing the ioctl keepalive interface
+	 */
+	if (ioctl(fd, WDIOC_KEEPALIVE)) {
+		perror("ioctl");
+		goto error_exit;
+	}
+
+	printf("Watchdog will timeout in %d seconds\n", to);
+
+	c = 0;
+	while ('q' != c) {
+		/* Write anything to the watchdog file to keepalive
+		 */
+		if (-1 == write(fd, &amp;c, sizeof (c))) {
+			perror("write");
+			goto error_exit;
+		}
+
+		printf("Press &lt;enter&gt; to keepalive or 'q'&lt;enter&gt; to quit\n");
+		c = getchar();
+	}
+
+	if (close(fd)) {
+		perror("close");
+		return -1;
+	}
+
+	return 0;
+
+      error_exit:
+
+	close(fd);
+	return -1;
+}
+
+
+<font color="#ff0000">// To compile the application run:</font>
+<font color="#ff0000">// If you have not already done so, load the driver.</font>
+<font color="#330099"><b>sh# </b>modprobe vmiwdt-7760</font>
+<font color="#ff0000">// Now let's run our code.</font>
+<font color="#330099"><b>sh$ </b>./wd_test</font>
+<font color="#330099">
+
+Watchdog module is vmiwdt-7760
+Firmware revision 0
+Supported options are:
+  SETTIMEOUT
+Watchdog will timeout in 60 seconds
+Press &lt;enter&gt; to keepalive or 'q'&lt;enter&gt; to quit
+
+</font>
+</pre></td></tr></table>
+<h2><a name="doc_chap5"></a>Using the Watchdog Timer</h2>
+<p>The watchdog timer starts immediately when the device file <font>/dev/watchdog</font> is opened.  A keepalive signal must be sent to the watchdog device before the timer expires to prevent a system reset. There are two methods of sending the keepalive signal.
+</p>
+<ul>
+<li>Write a value (any value) to the <font>/dev/watchdog</font> device -or-</li>
+<li>Use the <font color="#330099">WDIOC_KEEPALIVE</font> ioctl command.</li>
+</ul>
+<p>The timeout duration of the watchdog timer is configurable. The timeout value can be set by using the <font color="#330099">WDIOC_SETTIMEOUT</font> ioctl command. This command returns the timeout value set which may differ from the value you requested, depending on the timer's resolution. The timeout value set will always be equal to or greater than the value that you requested. If you request &gt; 60 seconds, the timeout will be set to 60 seconds. The <font color="#330099">WDIOC_GETTIMEOUT</font> ioctl command returns the current timeout value in seconds. The <font color="#330099"><tt>vmiwdt-7760</tt></font> driver supports the following timeout values.
+</p>
+<ul>
+<li>60 seconds</li>
+<li>10 seconds</li>
+<li>1 second</li>
+</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#bbffbb"><p><b>Note: </b>The watchdog timer actually has a considerable amount of variability. The 1 second setting may result in a timout of up to 3 seconds, the 10 seconds setting can run up to 20 seconds, and the 60 seconds setting can run up to 180 seconds before watchdog timer expiration.</p></td></tr></table>
+<p>The watchdog timer is disabled by closing the <font>/dev/watchdog</font> device file unless your kernel was built with <font color="#330099">CONFIG_WATCHDOG_NOWAYOUT</font> in which case, there is no way to disable the watchdog timer once it has started.
+</p>
+<br><br></td></tr></table></td></tr><tr><td width="100%" bgcolor="#330099"><font color="#ffffff">
+Copyright 2006 GE Fanuc Embedded Systems, Inc. Questions, Comments, Corrections?  Email <a href="mailto:support.embeddedsystems@gefanuc.com"><font color="#00ff00">support.embeddedsystems@gefanuc.com</font></a>.
+</font></td></tr></table></body></html>

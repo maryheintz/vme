@@ -1,0 +1,28 @@
+VMITMR_82C54 Changelog
+
+1.3:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.2:
++ Minor changes to tmr_example.c and tmr_dropout_test.c -DLH
+
+1.1.1:
++ Use select in timer example code. -DLH
++ Documentation edits. -DLH
++ Fix embarassing logic error in __tmr_start. -DLH
+
+1.1:
++ Add select/poll support. -DLH
++ Switch to Linus's coding style. -DLH
++ Move register definitions/macros to separate header file. -DLH
++ Move hwtimer.h to include directory. -DLH
+
+1.0:
++ Fix the path the kernel source to use Linus's decreed standard. -DLH
+
+0.2:
++ Documentation edits. -DLH
+
+0.1:
++ Initial release for internal testing. -DLH
+

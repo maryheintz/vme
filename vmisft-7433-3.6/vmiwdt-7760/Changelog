@@ -1,0 +1,6 @@
+VMIWDT-7760 Changelog
+
+1.1:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.0:

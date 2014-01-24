@@ -1,0 +1,79 @@
+#
+#==============================================================================
+#                           COPYRIGHT NOTICE
+#
+#   Copyright (C) 2002-2005 GE Fanuc
+#   International Copyright Secured.  All Rights Reserved.
+#
+#------------------------------------------------------------------------------
+#   Description: Makefile for the GE Fanuc NVRAM driver (2.4 Kernel)
+#------------------------------------------------------------------------------
+#
+#==============================================================================
+#
+
+
+# Project variables
+# 'uname -r' sets kernel revision to the currently running kernel revision
+# KERNELSRC must point to the Linux kernel source code.
+KERNELREV:=$(shell uname -r)
+KERNELSRC:=/lib/modules/$(KERNELREV)/build
+PROJNAME:=vminvr
+DEVFILE:=/dev/nvram
+DEVMAJOR:=10
+DEVMINOR:=144
+FIXUPFLAGS:=$(shell ../fixupflags.sh)
+
+# The standard tools and options
+CC:=gcc
+CFLAGS=-Wall -Iinclude
+LD:=ld
+LDFLAGS=
+
+
+# Install paths
+moduledir:=/lib/modules/$(KERNELREV)/kernel/drivers/char
+
+
+.PHONY: all install uninstall clean
+
+
+all:$(PROJNAME).o
+
+
+install: all $(DEVFILE)
+	install -m0644 -oroot -groot -D $(PROJNAME).o \
+                $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+uninstall: clean
+	rm -f $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+clean:
+	find . -name "*\.o" | xargs rm -f
+
+
+$(PROJNAME).o:CFLAGS+=-D__KERNEL__ -DMODULE -DMODVERSIONS \
+                             -include$(KERNELSRC)/include/linux/modversions.h \
+                             -DEXPORT_SYMTAB -I$(KERNELSRC)/include -O2 \
+                             -DMOD_MAJOR=$(DEVMAJOR) \
+                             -DMOD_NAME=\"$(PROJNAME)\" \
+                             -DMOD_VERSION=\"$(MOD_VERSION)\" $(FIXUPFLAGS)
+
+$(PROJNAME).o:$(KERNELSRC)/include/linux/modversions.h Makefile
+
+
+$(KERNELSRC)/include/linux/modversions.h:
+	$(error It appears that your kernel source is not installed. \
+                To build this module, the kernel source must be accessible \
+                via the path $(KERNELSRC).)
+
+
+# Major and minor device numbers and device names come from devices.txt
+# in kernel source documentation
+$(DEVFILE):
+	mknod --mode=666 $@ c $(DEVMAJOR) $(DEVMINOR) 
+

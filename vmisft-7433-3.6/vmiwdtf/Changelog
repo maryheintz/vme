@@ -1,0 +1,43 @@
+VMIWDTF Changelog
+
+1.2:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.1:
++ Add init.h to module includes. -DLH
+
+1.0.1
++ Switch to Linus's code style. -DLH
++ Move register definitions to separate header file. -DLH
++ Split up complex functions. - DLH
++ Reserve the appropriate memory region. -DLH
++ Add Makefile to test directory. -DLH
++ Fix undefined symbols in wd_test.c. -DLH
++ Documentation edits. -DLH
+
+1.0
++ Add test for *TIMEOUT operations. Define them if the kernel has not already
+  done so. -DLH
++ Fix the path the the kernel source to use Linus's decreed standard. -DLH
+
+0.4
++ Include linux/types.h to wd_test.c to workaround broken linux/watchdog.h
+  header file. -DLH
++ Fix device id and BAR for CPCI feature set 05. -DLH
+
+0.3:
++ Remove code mapping SERR to NMI.  This is a chipset specific.
+  It's more accurate to let this driver pull SERR and leave it at that.
+  What the user chooses to do with the SERR is their business. -DLH
++ Delete vmiwdt.h. -DLH
++ Include <linux/config.h> to pick up CONFIG_WATCHDOG_NOWAYOUT. -DLH
++ Add documentation. -DLH
++ Add SMP support. -DLH
+
+0.2:
++ Get SERR/NMI working. -DLH
++ Use miscdevice interface. -DLH
+
+0.1:
++ Initial release for internal testing. - DLH
+

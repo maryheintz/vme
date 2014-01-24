@@ -1,0 +1,199 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15"><title>VMIVME: GE Fanuc VMEbus Extensions Driver
+</title></head><body leftmargin="10" rightmargin="0" topmargin="0" marginheight="0" bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><a href="http://www.gefanuc.com/embedded"><img border="0" src="gefes-logo.jpg"></a></td></tr><tr><td valign="top" align="right"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td width="100%" valign="top" align="left"><br><h1>VMIVME: GE Fanuc VMEbus Extensions Driver
+</h1><h2>Contents:</h2><a href="#doc_chap1">Abstract</a><br><a href="#doc_chap2">Installation</a><br><a href="#doc_chap3">Loading and Unloading the Module</a><br><a href="#doc_chap4">Using Module Parameters</a><br><a href="#doc_chap5">Creating the device file</a><br><a href="#doc_chap6">Writing Applications Using the VMIVME Driver</a><br><h2><a name="doc_chap1"></a>Abstract</h2>
+<p>The <b>vmivme</b> driver is a loadable Linux device driver module for GE Fanuc VMEbus single board computers (SBCs).
+</p>
+<p>This document describes installation and usage of the <b>vmivme</b> driver for GE Fanuc SBCs.
+</p>
+<p>This driver only supports access to the VMEbus extension registers. To access the VMEbus, you will need a VMEbus bridge device driver. GE Fanuc supplies VMEbus bridge drivers to support GE Fanuc SBCs. Other organizations such as the VMELinux project and the Linux Labs project supply alternate VMEbus bridge drivers.
+</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#bbffbb"><p><b>Note: </b>It is not necessary to install and use this driver if you are using a VMEbus driver supplied by GE Fanuc.
+</p></td></tr></table>
+<p>This document assumes that you have some knowledge of the Linux operating system and C programming for POSIX/UNIX machines.
+</p>
+<h2><a name="doc_chap2"></a>Installation</h2><h3><font color="#330099"><a name="_sect1">Building</a></font></h3>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Linux kernel source code must be installed to build the driver module.
+</p></td></tr></table>
+<p>To use the <b>vmivme</b> driver, it must first be compiled (built) into executable code and installed. The next code listing illustrates how to compile and install the <b>vmivme</b> driver.
+</p>
+<a name="doc_pre1"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 1: Compiling and Installing the VMIVME Driver</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// From the vmivme base directory execute:</font>
+<font color="#330099"><b>sh$ </b>make</font>
+<font color="#330099"><b>sh# </b>make install</font>
+</pre></td></tr></table>
+<h3><font color="#330099"><a name="_sect2">Verifying the Installation</a></font></h3>
+<p>If the project is built and installed correctly, you should have the following file installed on your system:
+</p>
+<a name="doc_pre2"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 2: Verify the Installation</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// This is the driver module.  Make sure you use `uname -r`, not 'uname -r'.</font>
+<font color="#330099"><b>sh$ </b>ls /lib/modules/`uname -r`/extra/</font>
+<font color="#330099">vmivme.ko</font>
+<font color="#ff0000">// This is the header file for use by calling applications</font>
+<font color="#330099"><b>sh$ </b>ls /usr/include/linux/vmivme.h</font>
+<font color="#330099">vmivme.h</font>
+</pre></td></tr></table>
+<h2><a name="doc_chap3"></a>Loading and Unloading the Module</h2>
+<p>Use the <font color="#330099"><tt>modprobe</tt></font> command to load the driver module by entering <font color="#330099"><tt>modprobe vmivme</tt></font>.
+</p>
+<p>Use the <font color="#330099"><tt>lsmod</tt></font> command command to verify that the module loaded successfully. When you enter <font color="#330099"><tt>lsmod</tt></font>, the module name <font>vmivme</font> should appear in the output.
+</p>
+<p>To unload the module, enter <font color="#330099"><tt>modprobe -r vmivme</tt></font>.
+</p>
+<h2><a name="doc_chap4"></a>Using Module Parameters</h2>
+<p>To use module parameters, add them to the <font>/etc/modules.conf</font> file or specify them on the <font color="#330099"><tt>insmod</tt></font> or <font color="#330099"><tt>modprobe</tt></font> command line.
+</p>
+<p>The following parameters are defined for the <font color="#330099"><tt>vmivme</tt></font> driver:
+</p>
+<ul>
+<li>comm - Value of the command register.</li>
+</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>Module parameters can be passed in using <font color="#330099"><tt>insmod</tt></font>, but <font color="#330099"><tt>insmod</tt></font> does not read parameters from <font>/etc/modules.conf</font>.
+</p></td></tr></table>
+<h2><a name="doc_chap5"></a>Creating the device file</h2>
+<p>To access the <b>vmivme</b> driver, we need a character special device file. The major device number is 10 (This is the major number of the miscellaneous device driver). The minor number is dynamically allocated and output to the file <font>/proc/misc</font>.
+</p>
+<a name="doc_pre3"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 3: Creating the device file</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// Create the device file using the minor number from /proc/misc</font>
+<font color="#330099"><b>sh$ </b>cat /proc/misc</font>
+<font color="#330099"> 63 vmivme
+135 rtc
+  1 psaux
+134 apm_bios
+</font>
+<font color="#330099"><b>sh# </b>mknod /dev/vmivme c 10 63</font>
+</pre></td></tr></table>
+<p>Dynamically allocating the minor number has the unfortunate side-effect that the minor number may change from time to time making the device inaccesable until the minor number is corrected. An alternative is to set the minor number to a fixed value. This can be done by modifying the <font>Makefile</font>.
+</p>
+<a name="doc_pre4"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 4: Setting the device minor number in the Makefile</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// To set the minor number edit the following line in the Makefile</font>
+
+DEVMINOR:=255   # 255 means dynamically allocate a minor number
+
+<font color="#ff0000">// Then create the device file where MINOR_NUMBER is the calue you've shoosen</font>
+<font color="#330099"><b>sh# </b>mknod /dev/vmivme c 10 MINOR_NUMBER</font>
+</pre></td></tr></table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffbbbb"><p><b>Warning: </b>If you choose a fixed minor number, make sure it does not conflict with the minor number of any other device using the miscellaneous device driver interface (major number 10). You may want to look at <font>/usr/include/linux/miscdevice.h</font> before choosing a number.
+</p></td></tr></table>
+<h2><a name="doc_chap6"></a>Writing Applications Using the VMIVME Driver</h2>
+<p>The <b>vmivme</b> driver supports the following standard Linux system calls:
+</p>
+<ul>
+<li>open</li>
+<li>close</li>
+<li>ioctl</li>
+</ul>
+
+<p>The <font color="#330099">ioctl</font> commands are defined in the header file <font>/usr/include/linux/vmivme.h</font>. The following <font color="#330099">ioctl</font> commands are supported:
+</p>
+<ul>
+<li>VMIVME_MEC_ENABLE - Enable master endian conversion</li>
+<li>VMIVME_MEC_DISABLE - Disable master endian conversion</li>
+<li>VMIVME_SEC_ENABLE - Enable slave endian conversion</li>
+<li>VMIVME_SEC_DISABLE - Disable slave endian conversion</li>
+</ul>
+<p>Here is an example application that uses the <font color="#330099"><tt>vmivme</tt></font> driver to turn VMEbus endian conversion on and off.
+</p>
+<a name="doc_pre5"></a><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="#330099"><p><font color="#ffffff">
+Code listing 5: An application that uses the vmivme driver</font></p></td></tr><tr><td bgcolor="#ddddff"><pre>
+<font color="#ff0000">// This source code is included in the test directory.</font>
+<font color="#ff0000">// The file is called vmivme_endian.c</font>
+
+
+/*
+ * Test the VMEbus endian conversion
+ *
+ * Compile command: cc vmivme_endian.c -o vmivme_endian
+ */
+
+
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;linux/vmivme.h&gt;
+
+
+/*===========================================================================
+ * Main routine
+ */
+int
+main (int argc, char **argv)
+{
+  int fd, c, rval = 0;
+
+  if (0 &gt; (fd = open ("/dev/vmivme", O_RDWR)))
+    {
+      perror ("open");
+      return (-1);
+    }
+
+  while (-1 != (c = getopt (argc, argv, "m:s:")))
+    {
+      switch (c)
+        {
+        case 'm':              /* Master endian conversion */
+          if (strtol (optarg, NULL, 0)) /* no-zero value means enable */
+            {
+              if (0 &gt; ioctl (fd, VMIVME_MEC_ENABLE))
+                {
+                  perror ("ioctl");
+                  rval = -1;
+                }
+            }
+          else
+            {
+              if (0 &gt; ioctl (fd, VMIVME_MEC_DISABLE))
+                {
+                  perror ("ioctl");
+                  rval = -1;
+                }
+            }
+          break;
+        case 's':              /* Slave endian conversion */
+          if (strtol (optarg, NULL, 0)) /* non-zero value means enable */
+            {
+              if (0 &gt; ioctl (fd, VMIVME_SEC_ENABLE))
+                {
+                  perror ("ioctl");
+                  rval = -1;
+                }
+            }
+          else                  /*  0 means disable */
+            {
+              if (0 &gt; ioctl (fd, VMIVME_SEC_DISABLE))
+                {
+                  perror ("ioctl");
+                  rval = -1;
+                }
+            }
+          break;
+        default:
+          fprintf (stderr, "USAGE: vmivme_endian [-m value][-s value]");
+        }
+    }
+
+  if (0 &gt; close (fd))
+    {
+      perror ("close");
+      rval = -1;
+    }
+
+  return (rval);
+}
+
+<font color="#ff0000">// To compile the application run:</font>
+<font color="#330099"><b>sh$ </b>cc vmivme_endian.c -o vmivme_endian</font>
+<font color="#ff0000">// If you have not already done so, load the driver.</font>
+<font color="#330099"><b>sh# </b>modprobe vmivme</font>
+<font color="#ff0000">// Both master and slave endian conversion are on by default.</font>
+<font color="#330099"><b>sh$ </b>vmivme_endian -m0</font>  <font color="#ff0000">// turn off master endian conversion</font>
+<font color="#330099"><b>sh$ </b>vmivme_endian -m1</font>  <font color="#ff0000">// turn on master endian conversion</font>
+<font color="#330099"><b>sh$ </b>vmivme_endian -s0</font>  <font color="#ff0000">// turn off slave endian conversion</font>
+<font color="#330099"><b>sh$ </b>vmivme_endian -s1</font>  <font color="#ff0000">// turn on slave endian conversion</font>
+</pre></td></tr></table>
+<br><br></td></tr></table></td></tr><tr><td width="100%" bgcolor="#330099"><font color="#ffffff">
+Copyright 2006 GE Fanuc Embedded Systems, Inc. Questions, Comments, Corrections?  Email <a href="mailto:support.embeddedsystems@gefanuc.com"><font color="#00ff00">support.embeddedsystems@gefanuc.com</font></a>.
+</font></td></tr></table></body></html>

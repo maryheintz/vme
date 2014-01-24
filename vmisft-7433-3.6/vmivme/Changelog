@@ -1,0 +1,21 @@
+VMIVME Changelog
+
+1.3:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.2:
++ Minor Makefile and documentation edits. -DLH
+
+1.1:
++ Why did I put VMIVMEP_COMM__BERRIM in the PLX register default COMM 
+  register values? Not enough caffine I guess. -DLH
++ Add SMP support. -DLH
++ Add support for feature set 06. -DLH
++ Fix the path the the kernel source to use Linus's decreed standard. -DLH
+
+1.0:
++ Initial release. -DLH
+
+0.1:
++ Initial release for testing. -DLH
+

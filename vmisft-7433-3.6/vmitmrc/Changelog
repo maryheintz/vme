@@ -1,0 +1,28 @@
+VMITMRC Changelog
+
+1.2:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.1:
+
+1.0.2:
++ Add read test. -DLH
++ Remove read from interval test. -DLH
++ 32-bit timer readback is broken in hardware. No workaround is possible.
+  Document it and return an error. -DLH
+
+1.0.1:
++ Add additional test to the test directory. -DLH
++ Use select in timer example code. -DLH
++ Documentation edits. -DLH
++ Add select/poll support. -DLH
++ Switch to Linus's coding style. -DLH
++ Move register definitions/macros to separate header file. -DLH
++ Move hwtimer.h to include directory. -DLH
+
+1.0:
++ Fix the path the kernel source to use Linus's decreed standard. -DLH
+
+0.1:
++ Initial release for internal testing. -DLH
+

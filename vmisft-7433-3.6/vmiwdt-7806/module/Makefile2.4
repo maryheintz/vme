@@ -1,0 +1,78 @@
+#
+#==============================================================================
+#                           COPYRIGHT NOTICE
+#
+#   Copyright (C) 2004-2005 GE Fanuc
+#   International Copyright Secured.  All Rights Reserved.
+#
+#------------------------------------------------------------------------------
+#   Description: Makefile for the GE Fanuc watchdog timer driver (2.4 Kernel)
+#------------------------------------------------------------------------------
+#
+#==============================================================================
+#
+
+
+# Project variables
+# 'uname -r' sets kernel revision to the currently running kernel revision
+# KERNELSRC must point to the Linux kernel source code.
+KERNELREV:=$(shell uname -r)
+KERNELSRC:=/lib/modules/$(KERNELREV)/build
+PROJNAME:=vmiwdt-7806
+DEVFILE:=/dev/watchdog
+DEVMAJOR:=10 
+DEVMINOR:=130
+
+# The standard tools and options
+CC:=gcc
+CFLAGS=-Wall -D__KERNEL__ -DMODULE -DMODVERSIONS \
+       -include$(KERNELSRC)/include/linux/modversions.h -DEXPORT_SYMTAB \
+       -I$(KERNELSRC)/include -O2 -DMOD_NAME=\"$(PROJNAME)\" \
+       -DMOD_VERSION=\"$(VERSION)\" 
+
+LD:=ld
+LDFLAGS=
+
+
+# Install paths
+prefix:=
+exec_prefix:=$(prefix)/usr
+bindir:=$(exec_prefix)/bin
+moduledir:=$(prefix)/lib/modules/$(KERNELREV)/kernel/drivers/char
+
+
+.PHONY: all install uninstall clean
+
+
+all:$(PROJNAME).o
+
+
+install: all $(DEVFILE)
+	install -m0644 -oroot -groot -D $(PROJNAME).o \
+                $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+uninstall:
+	rm -f $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+clean:
+	find . -name "*\.o" | xargs rm -f
+
+
+$(PROJNAME).o:$(KERNELSRC)/include/linux/modversions.h
+
+
+$(KERNELSRC)/include/linux/modversions.h:
+	$(error It appears that your kernel source is not installed. \
+                To build this module, the kernel source must be accessible \
+                via the path $(KERNELSRC).)
+
+
+# Major and minor device numbers and device names come from devices.txt
+# in kernel source documentation
+$(DEVFILE):
+	mknod --mode=666 $@ c $(DEVMAJOR) $(DEVMINOR)
+

@@ -1,0 +1,89 @@
+#
+#==============================================================================
+#                           COPYRIGHT NOTICE
+#
+#   Copyright (C) 2002-2005 GE Fanuc
+#   International Copyright Secured.  All Rights Reserved.
+#
+#------------------------------------------------------------------------------
+#   Description: Makefile for the GE Fanuc Timer driver (2.4 Kernel)
+#------------------------------------------------------------------------------
+#
+#==============================================================================
+#
+
+# Project variables
+# 'uname -r' sets kernel revision to the currently running kernel revision
+# KERNELSRC must point to the Linux kernel source code.
+KERNELREV:=$(shell uname -r)
+KERNELSRC:=/lib/modules/$(KERNELREV)/build
+PROJNAME:=vmitmr-7326
+DEVFILE:=/dev/timer
+DEVMAJOR:=231
+FIXUPFLAGS:=$(shell ../fixupflags.sh)
+
+# The standard tools and options
+CC:=gcc
+CFLAGS=-Wall -I../include
+LD:=ld
+LDFLAGS=
+
+# Install paths
+prefix:=
+exec_prefix:=$(prefix)/usr
+bindir:=$(exec_prefix)/bin
+includedir:=$(exec_prefix)/include
+moduledir:=$(prefix)/lib/modules/$(KERNELREV)/kernel/drivers/char
+
+.PHONY: all install uninstall clean
+
+
+all: $(PROJNAME).o
+
+
+install: all $(DEVFILE)1 $(DEVFILE)2 $(DEVFILE)3 $(DEVFILE)4
+	install -m0644 -oroot -groot ../include/linux/hwtimer.h \
+                $(includedir)/linux/hwtimer.h
+	install -m0644 -oroot -groot -D $(PROJNAME).o \
+                $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+clean:
+	find . -name "*\.o" | xargs rm -f
+
+
+uninstall: clean
+	rm -f $(includedir)/linux/hwtimer.h
+	rm -f $(moduledir)/$(PROJNAME).o
+	/sbin/depmod
+
+
+
+$(PROJNAME).o:CFLAGS+=-D__KERNEL__ -DMODULE -DMODVERSIONS \
+                             -include$(KERNELSRC)/include/linux/modversions.h \
+                             -DEXPORT_SYMTAB -I$(KERNELSRC)/include -O2 \
+                             -DMOD_MAJOR=$(DEVMAJOR) \
+                             -DMOD_NAME=\"$(PROJNAME)\" \
+                             -DMOD_VERSION=\"$(MOD_VERSION)\" 
+
+$(PROJNAME).o:$(KERNELSRC)/include/linux/modversions.h Makefile \
+                      ../include/linux/hwtimer.h vmitmr-7326.h
+
+
+$(KERNELSRC)/include/linux/modversions.h:
+	$(error It appears that your kernel source is not installed. \
+                To build this module, the kernel source must be accessible \
+                via the path $(KERNELSRC).)
+
+$(DEVFILE)1:
+	mknod --mode=666 $@ c $(DEVMAJOR) 1
+
+$(DEVFILE)2:
+	mknod --mode=666 $@ c $(DEVMAJOR) 2
+
+$(DEVFILE)3:
+	mknod --mode=666 $@ c $(DEVMAJOR) 3
+
+$(DEVFILE)4:
+	mknod --mode=666 $@ c $(DEVMAJOR) 4

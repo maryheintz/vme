@@ -1,0 +1,20 @@
+VMIWDTD Changelog
+
+1.2:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.1:
++ Minor Makefile and documentation edits. -DLH
+
+1.0:
++ Add test for *TIMEOUT operations. Define them if the kernel has not done
+  so already. -DLH
++ Fix initialization of command register. -DLH
++ Turn on the oscillator!!! -DLH
++ Add parameter to select pulse or level interrupt. -DLH
++ Documentation edits. -DLH
++ Fix the path the the kernel source to use Linus's decreed standard. -DLH
+
+0.1:
++ Initial release for internal testing. -DLH
+

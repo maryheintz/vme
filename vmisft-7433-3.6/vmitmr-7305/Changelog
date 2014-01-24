@@ -1,0 +1,22 @@
+VMITMR-7305 Changelog
+
+1.1:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.0:
+
+0.4:
++ Add support for VMIPC4-7305 and VMIOMAX-8451. -DLH
+
+0.3:
++ Fix bugs in tmr_example and tmr_read_test. -DLH
+
+0.2:
++ Add timer readback test. -DLH
++ Remove read call from timer interval test. -DLH
++ Documentation edits. -DLH
++ Use select in timer example code.
+
+0.1:
++ Initial release for internal testing. -DLH
+

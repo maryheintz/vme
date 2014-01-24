@@ -1,0 +1,54 @@
+VMITMRF Changelog
+
+1.5
++ Added path to VMIC include files in the test Makefile. -EB
+
+1.4:
++ Add support for 2.6.XX kernel.  Still supports 2.4.XX kernel. -RMC
+
+1.3:
+
+1.2.1:
++ Documentation edits. -DLH
++ Add timer read test. -DLH
++ Remove read call from timer interval test and add period option. -DLH
++ Edit tmr_example to use 32-bit timers. -DLH
++ Don't allow driver to reserve memory alloacted to the watchdog device. -DLH
+
+1.2:
++ Split up complex functions. - DLH
++ Switch to Linus's code style. -DLH
++ Move register definitions to separate header file. -DLH
++ Split TCSR1 accesses to bytes. -DLH
++ Use new sytle PCI device driver model. -DLH
++ Move hwtimer.h to include directory. -DLH
++ Rework interrupt clearing to fix double interrupt bug. -DLH
++ Set count to count - 1 to correct accumulating drift. -DLH
++ Deprecated vmirtcf_rate_t. -DLH
++ Documentation edits. -DLH
+
+1.1:
++ Fix interrupt clear to prevent double interrupts at 250khz. -DLH
++ Add support for select. -DLH
++ Change locks to spin_locks. -DLH
++ Rework *latch_sync* functions. There's only one bit used, so why
+  lock and read. Just set it. -DLH
+
+1.0:
++ Fix the path the kernel source to use Linus's decreed standard. -DLH
+
+0.3:
++ Change name to vmitmrf. Former name was vmirtc. This is a countdown timer.
+  Not a real-time clock. -DLH
++ Choose a major number. I'm afraid dynamic will be more trouble than picking
+  a number. Yes, I know it's bad to assume an unassigned number. -DLH
+
+0.2:
++ Add SMP support. -DLH
++ Documentation edits. -DLH
++ Fix BAR and device id for CPCI feature set 05. -DLH
++ Use a dynamic major device number. -DLH
+
+0.1:
++ Initial release for internal testing. -DLH
+
