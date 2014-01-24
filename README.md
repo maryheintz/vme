@@ -9,3 +9,6 @@ The programs below are used for testing vme functions on our boards.  I didn't w
 * vme7700
 * vme7700_block
 
+## Driver
+
+The vmisft-7433-3.6 directory has the driver files.  Instructions for how to use this are here:  [Using Driver](http://edg.uchicago.edu/projects/vme7648/)
